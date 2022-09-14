@@ -3,14 +3,35 @@ import 'package:tour_guide/data/app_data.dart';
 import 'package:tour_guide/data/const.dart';
 import 'package:tour_guide/models/Trip.dart';
 
-class tripscreen extends StatelessWidget {
-  const tripscreen({Key? key}) : super(key: key);
+class tripscreen extends StatefulWidget {
+  tripscreen(this._addfavorite, this.favoritedata);
+  final Function _addfavorite;
+  final List<Trip> favoritedata;
 
+  @override
+  State<tripscreen> createState() => _tripscreenState();
+}
+
+class _tripscreenState extends State<tripscreen> {
   @override
   Widget build(BuildContext context) {
     final tripid =
         ModalRoute.of(context)!.settings.arguments as Map<String, String>;
     final trips = Trips_data.firstWhere((trip) => trip.id == tripid["id"]);
+    Widget favicon() {
+      if (widget.favoritedata.contains(trips)) {
+        return Icon(
+          Icons.star,
+          size: 40,
+        );
+      } else {
+        return Icon(
+          Icons.star_outline,
+          size: 40,
+        );
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primcol,
@@ -125,12 +146,15 @@ class tripscreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: seccol,
-        onPressed: () {
-          Navigator.of(context).pop(tripid['id']);
-        },
-        child: Icon(Icons.delete),
-      ),
+          backgroundColor: seccol,
+          onPressed: () {
+            setState(() {
+              widget._addfavorite(tripid['id']);
+            });
+
+            //Navigator.of(context).pop(tripid['id']);
+          },
+          child: favicon()),
     );
   }
 }

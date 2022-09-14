@@ -27,6 +27,7 @@ class _MyAppState extends State<MyApp> {
   };
 
   List<Trip> _availabletrip = Trips_data;
+  List<Trip> _favoritetrips = [];
 
   changefilter(Map<String, bool> newfilter) {
     setState(() {
@@ -47,6 +48,15 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  addfavorite(idtrip) {
+    Trip fftip = Trips_data.firstWhere((trip) => trip.id == idtrip);
+    if (_favoritetrips.contains(fftip)) {
+      _favoritetrips.remove(fftip);
+    } else {
+      _favoritetrips.add(fftip);
+    }
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -60,14 +70,11 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       initialRoute: "/",
       routes: {
-        '/': (context) => bottombar(
-              _filter,
-              changefilter,
-            ),
+        '/': (context) => bottombar(_filter, changefilter, _favoritetrips),
         'home': (context) => home(),
         'types': (context) => categorytyps(_availabletrip),
-        'trips': (context) => tripscreen(),
-        'favorite': (context) => faviorte(),
+        'trips': (context) => tripscreen(addfavorite, _favoritetrips),
+        'favorite': (context) => faviorte(_favoritetrips),
         filter.screenRoute: (context) => filter(
               _filter,
               changefilter,

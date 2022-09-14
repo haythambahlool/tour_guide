@@ -65,7 +65,6 @@ class _categorytypsState extends State<categorytyps> {
             imgurl: filter![index].imageUrl,
             title: filter![index].title,
             duration: filter![index].duration,
-            remove: _remove,
             //triptype: filter[index].tripType ,
             //season:  filter[index].season,
           );

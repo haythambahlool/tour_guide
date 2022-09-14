@@ -1,25 +1,31 @@
+//import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import '../data/app_data.dart';
 import '../data/const.dart';
 import '../models/trip.dart';
 
-class tripcard extends StatelessWidget {
+class tripcard extends StatefulWidget {
   final String imgurl;
   final String title;
   final int duration;
   final String id;
-  //final TripType triptype;
+  // final TripType triptype;
   //final Season season;
-  final Function remove;
-  const tripcard({
+  tripcard({
     required this.imgurl,
     required this.title,
     required this.duration,
     required this.id,
-    required this.remove,
-    // required this.triptype,
+    //required this.triptype,
     //required this.season,
   });
+
+  @override
+  State<tripcard> createState() => _tripcardState();
+}
+
+class _tripcardState extends State<tripcard> {
 /* 
   String get seasontext {
     switch (season) {
@@ -59,20 +65,15 @@ class tripcard extends StatelessWidget {
         return "undefined";
     }
   } */
-
   @override
   Widget build(BuildContext context) {
     final filter = Trips_data.where((trip) {
-      return trip.categories.contains(id);
+      return trip.categories.contains(widget.id);
     }).toList();
     return InkWell(
-      onTap: () {
-        Navigator.of(context)
-            .pushNamed("trips", arguments: {"id": id}).then((value) {
-          if (value != null) {
-            remove(value);
-          }
-        });
+      onTap: () async {
+        await Navigator.of(context)
+            .pushNamed("trips", arguments: {"id": widget.id});
       },
       child: Card(
         margin: EdgeInsets.all(10),
@@ -88,7 +89,7 @@ class tripcard extends StatelessWidget {
                     topRight: Radius.circular(15),
                   ),
                   child: Image.network(
-                    imgurl,
+                    widget.imgurl,
                     height: 250,
                     width: double.infinity,
                     fit: BoxFit.cover,
@@ -113,7 +114,7 @@ class tripcard extends StatelessWidget {
                         stops: [0.1, 1]),
                   ),
                   child: Text(
-                    title,
+                    widget.title,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
@@ -138,7 +139,7 @@ class tripcard extends StatelessWidget {
                         width: 5,
                       ),
                       Text(
-                        "${duration} Days",
+                        "${widget.duration} Days",
                         style: TextStyle(
                             color: seccol, fontWeight: FontWeight.bold),
                       )
@@ -154,7 +155,7 @@ class tripcard extends StatelessWidget {
                         width: 5,
                       ),
                       Text(
-                        "${duration} Days",
+                        "${widget.duration} Days",
                         style: TextStyle(
                             color: seccol, fontWeight: FontWeight.bold),
                       )
@@ -170,7 +171,7 @@ class tripcard extends StatelessWidget {
                         width: 5,
                       ),
                       Text(
-                        "${duration} Days",
+                        "${widget.duration} Days",
                         style: TextStyle(
                             color: seccol, fontWeight: FontWeight.bold),
                       )

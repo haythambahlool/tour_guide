@@ -1,16 +1,19 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:tour_guide/models/Trip.dart';
 import 'package:tour_guide/screens/categorys_types.dart';
 import 'package:tour_guide/screens/favirote.dart';
 import 'package:tour_guide/screens/filter.dart';
 import 'package:tour_guide/screens/home_screen.dart';
+import 'package:tour_guide/widgets/trip_card.dart';
 
 import '../data/const.dart';
 
 class bottombar extends StatefulWidget {
-  bottombar(this._currentfilter, this.savefilter);
+  bottombar(this._currentfilter, this.savefilter, this.favoritetr);
   Function savefilter;
   final Map<String, bool> _currentfilter;
+  List<Trip> favoritetr;
 
   @override
   State<bottombar> createState() => _bottombarState();
@@ -26,7 +29,7 @@ class _bottombarState extends State<bottombar> {
   void initState() {
     _screens = [
       {
-        "screen": const faviorte(),
+        "screen": faviorte(widget.favoritetr),
         "title": Text(
           "Favorite",
           style: TextStyle(
